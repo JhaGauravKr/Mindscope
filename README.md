@@ -20,8 +20,7 @@
 
 ## 🖼️ UI Preview
 
-> *(Add a screenshot named `preview-screenshot.png` in your repo)*  
-> Example preview showing summary + mind map + Q&A interface.
+(preview-screenshot.png)
 
 ---
 
