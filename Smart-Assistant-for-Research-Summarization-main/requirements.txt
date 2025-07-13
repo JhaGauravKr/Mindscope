@@ -1,0 +1,25 @@
+# Web UI
+streamlit
+
+# Core ML Libraries
+torch
+transformers
+sentence-transformers
+accelerate
+tokenizers
+
+# NLP Preprocessing
+nltk
+
+# PDF/Text Extraction
+PyMuPDF  # a.k.a. fitz
+
+# Data Handling
+pandas
+numpy
+scikit-learn
+
+# Visualization Tools (used in mind map + 3D maps)
+pydeck
+plotly
+graphviz
