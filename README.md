@@ -20,8 +20,6 @@
 
 ## 🖼️ UI Preview
 
-## 📸 Demo Screenshot
-
 ![MindScope Screenshot](preview-screenshot.png)
 
 
