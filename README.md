@@ -25,6 +25,13 @@
 
 ---
 
+## 🚀 Live Demo
+
+Try the deployed application here 👉 [MindScope AI (Streamlit App)](https://jhagauravkr-mindscope.streamlit.app/)
+
+> No installation needed — open in browser and upload your research paper (PDF/TXT) to test summarization, Q&A, and comprehension features.
+
+
 ## 🧑‍💻 Tech Stack
 
 - **Frontend**: [Streamlit](https://streamlit.io)
