@@ -76,10 +76,8 @@ Each module is designed to be explainable, modular, and beginner-friendly while 
 
 Watch a quick walkthrough of **MindScope** in action:
 
-👉 [Click here to watch the demo on YouTube]([https://www.youtube.com/watch?v=your-demo-link](https://youtu.be/JxIVDbjs9Qw))  
-[![Watch the video](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+[![Watch the video](https://img.youtube.com/vi/JxIVDbjs9Qw/hqdefault.jpg)](https://youtu.be/JxIVDbjs9Qw)
 
-> 📌 *The video shows how to upload a research paper, generate a mind map, ask questions, and test your comprehension interactively.*
 
 
 ---
