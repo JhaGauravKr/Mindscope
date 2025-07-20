@@ -1,0 +1,22 @@
+# --- Core Framework ---
+streamlit
+
+# --- LLM and API ---
+groq
+python-dotenv
+
+# --- NLP + Processing ---
+sentence-transformers
+scikit-learn
+nltk
+numpy
+pandas
+graphviz
+requests
+matplotlib
+
+# --- PDF & File Handling ---
+PyPDF2
+
+# --- Utility ---
+tqdm
