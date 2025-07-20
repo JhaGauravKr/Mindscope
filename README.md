@@ -1,22 +1,50 @@
-# 🧠 MindScope: AI Research Insight Generator
+# 🧠 MindScope: Smart Assistant for Research Summarization
 
-**MindScope** is a privacy-focused, AI-powered research assistant built using Streamlit and modern NLP models. It allows users to upload research documents (PDF or TXT), get concise summaries, visualize concept relationships through mind maps, ask intelligent questions, and test their comprehension — all processed locally without storing any data.
+A full-stack AI-powered web assistant that helps users upload academic PDFs or TXT files, understand them quickly via executive summaries, mind maps, Q&A, and evaluate their knowledge through a subjective challenge mode — all powered by the Groq API.
 
 ---
+
+## 🌐 Live Demo
+
+🔗 [Try it on Streamlit →](https://jhagauravkr-mindscope.streamlit.app/)
+
+---
+
 
 ## 🚀 Features
 
-- 📤 Upload and read PDF/TXT documents
-- ✍️ Generate 80–150 word executive summaries
-- 🧠 Visualize concept relationships using interactive Mind Maps
-- ❓ Ask natural language questions about the content
-- 🧪 Test your understanding with AI-generated comprehension questions
-- ✅ Receive evaluation feedback on your answers (not based on word-to-word match)
-- 🧾 View complete conversation history
-- 🧑‍🎨 Modern dark UI with glassmorphism style
-- 🔒 No data is stored or shared — runs fully local for privacy
+- 📤 **Upload Research Document** (`PDF` or `TXT`)
+- 🧠 **Mind Map Generator**  
+  → Visual concept map from document using TF-IDF
+- 📄 **Executive Summary**  
+  → Llama3 70B-powered summarization (via Groq)
+- 💬 **Q&A Mode**  
+  → Ask any question and get contextual answer + justification
+- 🎯 **Challenge Mode**
+  → Generate 2 descriptive questions based only on the document  
+  → User types their answers → AI evaluates them with feedback
+- ✅ **Fully Local UI**  
+  → Modular Streamlit layout (via `ui_config.py`)
+- 🔐 **API key secured via `.env`**
 
 ---
+
+## 🛠️ Tech Stack
+
+| Layer       | Tools Used                                  |
+|-------------|----------------------------------------------|
+| Backend     | Python, Django (for API if extended)         |
+| Frontend    | Streamlit, HTML, CSS, Bootstrap              |
+| LLM         | `llama3-70b-8192` via **Groq API**           |
+| Mind Map    | `scikit-learn`, `Graphviz` (TF-IDF based)    |
+| Summary     | Groq Client + Prompt Engineering             |
+| Q&A         | Groq Client + Contextual Justification       |
+| Challenge   | Only **Subjective Questions** + AI Feedback  |
+| File Parsing| PyPDF2, StringIO, secure handling            |
+| Environment | `.env` file for storing API keys             |
+
+---
+
 
 ## 🖼️ UI Preview
 
@@ -25,52 +53,7 @@
 
 ---
 
-## 🧑‍💻 Tech Stack
 
-- **Frontend**: [Streamlit](https://streamlit.io)
-- **Models Used**: `roberta-base-squad2` (Hugging Face Transformers)
-- **Summarization**: TextRank + Transformer-based methods
-- **Visualization**: TF-IDF + TruncatedSVD + Graphviz
-- **Answer Evaluation**: Semantic similarity scoring via QA pipeline
-- **Styling**: Custom CSS (dark mode, animations, and layout)
-
----
-
-## 🧠 Architecture & Reasoning Flow
-
-The app follows a modular and explainable reasoning flow:
-
-1. **Document Ingestion**:
-   - User uploads a `.pdf` or `.txt` file.
-   - The content is extracted using PyMuPDF (`fitz`) or basic text decoding.
-
-2. **Text Summarization**:
-   - The raw text is summarized into 80–150 words using TF-IDF and SVD-based extractive summarization.
-   - Ensures a compact yet insightful executive summary.
-
-3. **Mind Map Construction**:
-   - Key terms are extracted using `TfidfVectorizer`.
-   - A 2-level mind map is visualized using Graphviz, showing hierarchical relationships between concepts.
-
-4. **Interactive Q&A**:
-   - Users can ask custom questions related to the document.
-   - An **extractive QA model** (`roberta-base-squad2`) finds the best justification span.
-   - A **generative model** (`flan-t5-base`) converts it into a clear, full-sentence answer.
-
-5. **Knowledge Testing (Comprehension Mode)**:
-   - GPT-2 generates 3–5 logic-based questions from the document.
-   - Users answer, and their response is compared to the model's expected answer using `sentence-transformers`.
-   - Semantic similarity scoring is used to provide graded feedback (Excellent, Good, Almost There, Needs Improvement).
-
-6. **User Feedback Loop**:
-   - Conversation history is saved.
-   - Users can regenerate questions or retry answers.
-   - Answers are not compared word-for-word but based on **meaning similarity**, using embeddings.
-
-Each module is designed to be explainable, modular, and beginner-friendly while still using advanced NLP under the hood.
-
-
----
 
 ## 🎥 Demo Video
 
@@ -95,8 +78,7 @@ cd MindScope
 python -m venv venv
 # On Windows:
 venv\Scripts\activate
-# On Mac/Linux:
-source venv/bin/activate
+
 
 # Install dependencies
 pip install -r requirements.txt
