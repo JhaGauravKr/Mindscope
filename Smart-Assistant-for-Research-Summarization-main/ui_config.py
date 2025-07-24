@@ -71,6 +71,25 @@ def inject_custom_css():
         margin-top: -1rem;
         color: #6b7280;
     }
+
+    /* Streamlit Info Box - General styling for visibility in both themes */
+    .stAlert.info {
+        background-color: #e0f2fe; /* Light blue for light theme info */
+        color: #0c4a6e; /* Dark blue text for light theme info */
+    }
+    [data-theme="dark"] .stAlert.info {
+        background-color: #1e3a8a; /* Darker blue for dark theme info */
+        color: #bfdbfe; /* Lighter blue text for dark theme info */
+    }
+
+    /* Ensure text in st.markdown is visible */
+    .stMarkdown, .stText {
+        color: var(--text-color, #111827); /* Use CSS variable for flexibility, default to dark for light theme */
+    }
+    [data-theme="dark"] .stMarkdown, [data-theme="dark"] .stText {
+        color: var(--text-color, #f8fafc); /* Default to light for dark theme */
+    }
+
     </style>
     """, unsafe_allow_html=True)
 
@@ -79,20 +98,19 @@ def theme_toggle():
     if "dark_mode" not in st.session_state:
         st.session_state.dark_mode = False
 
-    col1, col2 = st.columns([1, 1])
-    with col1:
-        st.markdown('<div class="top-bar"><button class="about-button" onclick="window.showAbout=true">About</button>', unsafe_allow_html=True)
-    with col2:
+    col1, col2 = st.columns([8, 2]) # Adjusted column ratio
+    with col2: # Place toggle button in the second column
         toggle = st.button("🌙 Toggle Theme", key="theme_toggle")
         if toggle:
             st.session_state.dark_mode = not st.session_state.dark_mode
-
-    st.markdown('</div>', unsafe_allow_html=True)
 
     # Set light/dark mode CSS dynamically
     if st.session_state.dark_mode:
         st.markdown("""
         <style>
+        :root {
+            --text-color: #f8fafc; /* Define text color for dark mode */
+        }
         body, .stApp {
             background-color: #111827;
             color: #ffffff;
@@ -111,6 +129,9 @@ def theme_toggle():
     else:
         st.markdown("""
         <style>
+        :root {
+            --text-color: #111827; /* Define text color for light mode */
+        }
         body, .stApp {
             background-color: #f9fafb;
             color: #1f2937;
@@ -132,31 +153,33 @@ def about_modal():
     if "show_about" not in st.session_state:
         st.session_state.show_about = False
 
-    with st.container():
-        cols = st.columns([8, 2])
-        with cols[0]:
-            if st.button("About", key="about_button"):
-                st.session_state.show_about = not st.session_state.show_about
+    # Place the About button in the top bar, consistent with theme toggle
+    col1, col2 = st.columns([1, 8]) # Adjusted column ratio for about button
+    with col1: # Place about button in the first column
+        if st.button("About", key="about_button_top_bar"): # Renamed key to avoid potential conflicts
+            st.session_state.show_about = not st.session_state.show_about
 
-        if st.session_state.show_about:
-            st.markdown("""
-            <div class="about-content" style="background-color: #f0f4f8; padding: 1em; border-radius: 10px;">
-                <h4>🧠 About MindScope</h4>
-                <p>
-                    <b>MindScope</b> is a privacy-focused, AI-powered research assistant that helps users:
-                    <ul>
-                        <li>📄 Summarize academic content</li>
-                        <li>🧠 Generate mind maps</li>
-                        <li>💬 Interact with intelligent Q&A modules</li>
-                        <li>🎯 Practice subjective questions with AI evaluation</li>
-                    </ul>
-                </p>
-                <hr/>
-                <b>👨‍💻 Author:</b> <a href="https://www.linkedin.com/in/gaurav-kumar-jha-525063276" target="_blank">Gaurav Kumar Jha</a><br/>
-                <b>📧 Email:</b> <a href="mailto:jhagauravkumar20@gmail.com">jhagauravkumar20@gmail.com</a><br/>
-                <b>🔗 GitHub:</b> <a href="https://github.com/jhagauravkr" target="_blank">@jhagauravkr</a>
-            </div>
-            """, unsafe_allow_html=True)
+    if st.session_state.show_about:
+        st.markdown("""
+        <div class="about-content" style="background-color: #f0f4f8; padding: 1em; border-radius: 10px;">
+            <h4>🧠 About MindScope</h4>
+            <p>
+                <b>MindScope</b> is a privacy-focused, AI-powered research assistant that helps users:
+                <ul>
+                    <li>📄 Summarize academic content</li>
+                    <li>🧠 Generate mind maps</li>
+                    <li>💬 Interact with intelligent Q&A modules</li>
+                    <li>🎯 Practice subjective questions with AI evaluation</li>
+                </ul>
+            </p>
+            <hr/>
+            <b>👨‍💻 Author:</b> <a href="https://www.linkedin.com/in/gaurav-kumar-jha-525063276" target="_blank">Gaurav Kumar Jha</a><br/>
+            <b>📧 Email:</b> <a href="mailto:jhagauravkumar20@gmail.com">jhagauravkumar20@gmail.com</a><br/>
+            <b>🔗 GitHub:</b> <a href="https://github.com/jhagauravkr" target="_blank">@jhagauravkr</a>
+        </div>
+        """, unsafe_allow_html=True)
+    # The div closing tag in theme_toggle was problematic, removed.
+    # The placement of about_modal() and theme_toggle() calls in app.py matters.
 
 def hero_header():
     st.markdown("""
