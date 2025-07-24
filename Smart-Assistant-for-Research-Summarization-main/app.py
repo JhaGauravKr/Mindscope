@@ -23,17 +23,14 @@ from ui_config import inject_custom_css, set_custom_page_config, theme_toggle, a
 set_custom_page_config()
 inject_custom_css()
 
-# Combined top bar for About and Theme Toggle
+# Place About and Theme Toggle in the same row of columns
 col_about, col_spacer, col_theme = st.columns([1, 6, 1]) # Adjust ratios as needed for spacing
 with col_about:
-    about_modal() # This now just contains the button logic and modal display
+    about_modal() # This now only handles the About button and its content
 with col_theme:
-    theme_toggle() # This now just contains the toggle button logic
+    theme_toggle() # This now only handles the Theme Toggle button
 
 hero_header()
-# No direct call to footer() here if it's placed at the very end of main() or explicitly handled.
-# Placing it at the end of main() is more common for footers.
-
 
 
 def main():
