@@ -17,7 +17,7 @@ def inject_custom_css():
         transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    /* DARK THEME */
+    /* THEME-SPECIFIC GLOBAL STYLES (via data-theme attribute) */
     [data-theme="dark"] {
         background-color: #0f172a;
         color: #f8fafc; /* General text color for dark theme */
@@ -28,7 +28,6 @@ def inject_custom_css():
         color: #f8fafc;
     }
 
-    /* LIGHT THEME */
     [data-theme="light"] {
         background-color: #ffffff;
         color: #111827; /* General text color for light theme */
@@ -85,25 +84,36 @@ def inject_custom_css():
         color: #bfdbfe; /* Lighter blue text */
     }
 
-    /* About Modal Content Specific Styles */
-    .about-content {
-        padding: 1em;
+    /* About Expander Content Specific Styles (if using expander) */
+    .st-expander { /* Target the expander component itself */
+        background-color: var(--background-color, #f0f4f8); /* Use CSS variable for background */
         border-radius: 10px;
+        padding: 1em; /* Add some padding inside the expander */
+        border: 1px solid var(--border-color, #d1d5db);
     }
-    [data-theme="light"] .about-content {
-        background-color: #f0f4f8; /* Light gray for light theme */
-        color: #111827; /* Dark text for light theme */
+    .st-expander details { /* Target the details tag inside the expander */
+        padding: 0; /* Remove default padding from details */
     }
-    [data-theme="dark"] .about-content {
-        background-color: #2d3748; /* Darker background for dark theme */
-        color: #f8fafc; /* Light text for dark theme */
+    .st-expander details summary { /* Target the summary (header) of the expander */
+        color: var(--text-color, #111827); /* Ensure header text is visible */
+    }
+    .st-expander details div { /* Target the content div inside the expander */
+        color: var(--text-color, #111827); /* Ensure content text is visible */
     }
 
-    /* Ensure text in st.markdown and st.text is visible by default */
-    /* This overrides some Streamlit defaults if they are causing issues */
-    .stMarkdown, .stText, .stTextInput, .stTextArea {
-        color: var(--text-color); /* Use CSS variable set by theme_toggle */
+    /* Ensure general text elements are visible */
+    /* This targets various text-displaying components in Streamlit */
+    .stText, .stMarkdown, .stLabel, .stTextInput>div>label, .stTextArea>label {
+        color: var(--text-color, #111827); /* Fallback for good measure */
     }
+
+    /* Input and TextArea specific styling (dynamic in theme_toggle) */
+    .stTextInput>div>div>input, .stTextArea>div>textarea {
+        background-color: var(--input-background-color);
+        color: var(--input-text-color);
+        border: 1px solid var(--input-border-color);
+    }
+
     </style>
     """, unsafe_allow_html=True)
 
@@ -112,25 +122,25 @@ def theme_toggle():
     if "dark_mode" not in st.session_state:
         st.session_state.dark_mode = False
 
-    # This function only handles the theme toggle button and dynamic CSS
     toggle = st.button("🌙 Toggle Theme", key="theme_toggle")
     if toggle:
         st.session_state.dark_mode = not st.session_state.dark_mode
 
-    # Set light/dark mode CSS dynamically
+    # Set dynamic CSS variables for theme
     if st.session_state.dark_mode:
         st.markdown("""
         <style>
         :root {
-            --text-color: #f8fafc; /* Define text color for dark mode for general text */
+            --text-color: #f8fafc;
+            --background-color: #111827;
+            --border-color: #374151;
+            --input-background-color: #1f2937;
+            --input-text-color: #ffffff;
+            --input-border-color: #374151;
         }
         body, .stApp {
-            background-color: #111827;
-        }
-        .stTextInput>div>div>input, .stTextArea>div>textarea {
-            background-color: #1f2937;
-            color: #ffffff; /* Explicitly white for input/textarea text in dark mode */
-            border: 1px solid #374151;
+            background-color: var(--background-color);
+            color: var(--text-color); /* Apply general text color */
         }
         .stButton>button {
             background: #4f46e5;
@@ -142,15 +152,16 @@ def theme_toggle():
         st.markdown("""
         <style>
         :root {
-            --text-color: #111827; /* Define text color for light mode for general text */
+            --text-color: #111827;
+            --background-color: #f9fafb;
+            --border-color: #d1d5db;
+            --input-background-color: #ffffff;
+            --input-text-color: #000000;
+            --input-border-color: #d1d5db;
         }
         body, .stApp {
-            background-color: #f9fafb;
-        }
-        .stTextInput>div>div>input, .stTextArea>div>textarea {
-            background-color: #ffffff;
-            color: #000000; /* Explicitly black for input/textarea text in light mode */
-            border: 1px solid #d1d5db;
+            background-color: var(--background-color);
+            color: var(--text-color); /* Apply general text color */
         }
         .stButton>button {
             background: linear-gradient(135deg, #4f46e5, #6366f1);
@@ -160,18 +171,9 @@ def theme_toggle():
         """, unsafe_allow_html=True)
 
 
-def about_modal():
-    if "show_about" not in st.session_state:
-        st.session_state.show_about = False
-
-    # This button controls the visibility of the about modal directly
-    if st.button("About", key="about_button_top_bar"):
-        st.session_state.show_about = not st.session_state.show_about
-
-    if st.session_state.show_about:
+def about_section(): # Renamed to reflect it's now an expander, not a modal
+    with st.expander("About MindScope 🧠"):
         st.markdown("""
-        <div class="about-content">
-            <h4>🧠 About MindScope</h4>
             <p>
                 <b>MindScope</b> is a privacy-focused, AI-powered research assistant that helps users:
                 <ul>
@@ -185,7 +187,6 @@ def about_modal():
             <b>👨‍💻 Author:</b> <a href="https://www.linkedin.com/in/gaurav-kumar-jha-525063276" target="_blank">Gaurav Kumar Jha</a><br/>
             <b>📧 Email:</b> <a href="mailto:jhagauravkumar20@gmail.com">jhagauravkumar20@gmail.com</a><br/>
             <b>🔗 GitHub:</b> <a href="https://github.com/jhagauravkr" target="_blank">@jhagauravkr</a>
-        </div>
         """, unsafe_allow_html=True)
 
 
