@@ -41,6 +41,21 @@ def inject_custom_css():
         padding: 1em;
     }
 
+    /* Specific styles for File Uploader text */
+    /* Light Theme */
+    [data-theme="light"] .stFileUploader label,
+    [data-theme="light"] .stFileUploader > div > button + div,
+    [data-theme="light"] .stFileUploader span { /* Added span as a target */
+        color: #111827 !important; /* Dark text for light theme, with !important */
+    }
+    /* Dark Theme */
+    [data-theme="dark"] .stFileUploader label,
+    [data-theme="dark"] .stFileUploader > div > button + div,
+    [data-theme="dark"] .stFileUploader span { /* Added span as a target */
+        color: #f8fafc !important; /* Light text for dark theme, with !important */
+    }
+
+
     /* Hero Header */
     .hero-header h1 {
         font-size: 3rem;
@@ -57,23 +72,31 @@ def inject_custom_css():
     /* Light theme info */
     .stAlert.info {
         background-color: #e0f2fe; /* Light blue */
-        color: #0c4a6e; /* Direct text color for info alerts in light theme */
+    }
+    .stAlert.info div[data-testid="stMarkdownContainer"] { /* Target Markdown content within info alert */
+        color: #0c4a6e !important; /* Dark blue text, !important */
     }
     /* Dark theme info */
     [data-theme="dark"] .stAlert.info {
         background-color: #1e3a8a; /* Darker blue */
-        color: #bfdbfe; /* Direct text color for info alerts in dark theme */
+    }
+    [data-theme="dark"] .stAlert.info div[data-testid="stMarkdownContainer"] { /* Target Markdown content within info alert */
+        color: #bfdbfe !important; /* Lighter blue text, !important */
     }
 
     /* Light theme success */
     .stAlert.success {
         background-color: #dcfce7; /* Light green */
-        color: #166534; /* Direct text color for success alerts in light theme */
+    }
+    .stAlert.success div[data-testid="stMarkdownContainer"] { /* Target Markdown content within success alert */
+        color: #166534 !important; /* Dark green text, !important */
     }
     /* Dark theme success */
     [data-theme="dark"] .stAlert.success {
         background-color: #166534; /* Darker green */
-        color: #bbf7d0; /* Direct text color for success alerts in dark theme */
+    }
+    [data-theme="dark"] .stAlert.success div[data-testid="stMarkdownContainer"] { /* Target Markdown content within success alert */
+        color: #bbf7d0 !important; /* Lighter green text, !important */
     }
 
     /* About Expander Content Specific Styles */
@@ -85,7 +108,7 @@ def inject_custom_css():
     }
     .st-expander details summary,
     .st-expander details div {
-        color: var(--text-color); /* Ensure text is visible inside expander */
+        color: var(--text-color) !important; /* Ensure text is visible inside expander */
     }
 
     /* Universal text color for various Streamlit elements */
@@ -94,8 +117,6 @@ def inject_custom_css():
     .stMarkdown,
     .stLabel,
     .stBlock, /* General block elements, often contain text */
-    .stFileUploader label, /* Label "Upload Research Document" */
-    .stFileUploader > div > button + div, /* "Drag and drop file here" and "Limit 200MB" */
     .stTextInput>div>label,
     .stTextArea>label,
     .stSelectbox>label,
@@ -108,7 +129,7 @@ def inject_custom_css():
     .stTextInput>div>div>input,
     .stTextArea>div>textarea {
         background-color: var(--input-background-color);
-        color: var(--input-text-color);
+        color: var(--input-text-color) !important;
         border: 1px solid var(--input-border-color);
     }
 
@@ -125,7 +146,6 @@ def theme_toggle():
         st.session_state.dark_mode = not st.session_state.dark_mode
 
     # Set dynamic CSS variables for theme on :root
-    # These variables will then be used by other CSS rules
     if st.session_state.dark_mode:
         st.markdown("""
         <style>
