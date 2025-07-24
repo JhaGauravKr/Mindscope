@@ -141,7 +141,7 @@ def theme_toggle():
     if "dark_mode" not in st.session_state:
         st.session_state.dark_mode = False
 
-    toggle = st.button("🌙 Toggle Theme", key="theme_toggle")
+    toggle = st.button("🌙 ", key="theme_toggle")
     if toggle:
         st.session_state.dark_mode = not st.session_state.dark_mode
 
