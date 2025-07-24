@@ -17,18 +17,21 @@ from utils.challenge import (
     evaluate_subjective
 )
 from utils.mindmap import generate_mindmap
-from ui_config import inject_custom_css, set_custom_page_config, theme_toggle, about_modal, hero_header, footer
+# Corrected import for the renamed about function
+from ui_config import inject_custom_css, set_custom_page_config, theme_toggle, about_section, hero_header, footer
 
 # Streamlit Config
 set_custom_page_config()
 inject_custom_css()
 
-# Place About and Theme Toggle in the same row of columns
-col_about, col_spacer, col_theme = st.columns([1, 6, 1]) # Adjust ratios as needed for spacing
+# Place About Expander and Theme Toggle in the same row of columns
+col_about, col_spacer, col_theme = st.columns([2, 5, 1]) # Adjust ratios as needed for spacing
+
 with col_about:
-    about_modal() # This now only handles the About button and its content
+    about_section() # This now renders the st.expander for About
+
 with col_theme:
-    theme_toggle() # This now only handles the Theme Toggle button
+    theme_toggle() # This handles the Theme Toggle button
 
 hero_header()
 
