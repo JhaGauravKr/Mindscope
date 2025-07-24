@@ -11,80 +11,69 @@ def set_custom_page_config():
 def inject_custom_css():
     st.markdown("""
     <style>
-    body {
+    /* GLOBAL RESET */
+    html, body, [class*="css"]  {
         font-family: 'Segoe UI', sans-serif;
-        transition: background-color 0.5s ease, color 0.5s ease;
+        transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    .top-bar {
-        position: sticky;
-        top: 0;
-        background-color: #1f2937;
-        color: white;
-        z-index: 999;
-        padding: 0.8rem 1.2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-radius: 0 0 10px 10px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    /* DARK THEME */
+    [data-theme="dark"] {
+        background-color: #0f172a;
+        color: #f8fafc;
     }
 
-    .about-button {
-        background: none;
-        color: white;
-        border: 1px solid white;
-        padding: 0.4rem 1rem;
-        border-radius: 6px;
-        cursor: pointer;
+    [data-theme="dark"] .stMarkdown {
+        background-color: #1e293b;
+        color: #f8fafc;
+    }
+
+    /* LIGHT THEME */
+    [data-theme="light"] {
+        background-color: #ffffff;
+        color: #111827;
+    }
+
+    [data-theme="light"] .stMarkdown {
+        background-color: #f3f4f6;
+        color: #111827;
+    }
+
+    /* Buttons */
+    .stButton>button {
+        border-radius: 8px;
+        padding: 0.6em 1.4em;
+        font-weight: 600;
+        border: none;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         transition: all 0.3s ease;
     }
 
-    .about-button:hover {
-        background-color: #4f46e5;
-        color: #fff;
-        border-color: #4f46e5;
+    .stButton>button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
 
-    .theme-toggle {
-        font-size: 0.9rem;
-        padding: 0.4rem 0.8rem;
-        background-color: #6366f1;
-        border: none;
-        border-radius: 6px;
-        color: white;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .theme-toggle:hover {
-        background-color: #4338ca;
-    }
-
-    .animated-upload {
-        animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-        0% { box-shadow: 0 0 0 0 rgba(79,70,229, 0.4); }
-        70% { box-shadow: 0 0 0 10px rgba(79,70,229, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(79,70,229, 0); }
-    }
-
+    /* Upload area */
     .stFileUploader {
-        border: 2px dashed #4f46e5;
-        border-radius: 10px;
-        padding: 1rem;
-        background-color: #f9fafb;
-        text-align: center;
+        border: 2px dashed #6366f1;
+        border-radius: 12px;
+        padding: 1em;
     }
 
-    .stMarkdown, .stTextInput, .stTextArea, .stSelectbox, .stButton>button {
-        border-radius: 8px;
+    .hero-header h1 {
+        font-size: 3rem;
+        font-weight: bold;
     }
 
+    .hero-header p {
+        font-size: 1.2rem;
+        margin-top: -1rem;
+        color: #6b7280;
+    }
     </style>
     """, unsafe_allow_html=True)
+
 
 def theme_toggle():
     if "dark_mode" not in st.session_state:
@@ -138,35 +127,36 @@ def theme_toggle():
         </style>
         """, unsafe_allow_html=True)
 
+
 def about_modal():
-    st.markdown("""
-    <script>
-    const aboutPopup = () => {
-        const html = `<div id="about-modal" style="
-            position: fixed; top: 20%; left: 50%; transform: translate(-50%, -20%);
-            background-color: #1f2937; color: white; padding: 2rem; border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 9999;
-            max-width: 600px; text-align: left;">
-            <h3>About MindScope</h3>
-            <p><b>MindScope</b> is a privacy-focused AI-powered assistant that summarizes research documents, generates mind maps, answers questions, and evaluates understanding through intelligent challenges.</p>
-            <hr style="border-top: 1px solid #555;">
-            <p><b>👤 Author:</b> Gaurav Kumar Jha</p>
-            <p><b>📧 Email:</b> jhagauravkumar20@gmail.com</p>
-            <p><b>🔗 GitHub:</b> <a href='https://github.com/jhagauravkr' target='_blank' style='color: #60a5fa;'>@jhagauravkr</a></p>
-            <p><b>🚀 Deployed:</b> <a href='https://jhagauravkr-mindscope.streamlit.app/' target='_blank' style='color: #60a5fa;'>Click Here</a></p>
-            <div style="margin-top: 1rem; text-align: right;">
-                <button onclick="document.getElementById('about-modal').remove()" style="
-                    background-color: #4f46e5; color: white; padding: 0.5rem 1rem;
-                    border: none; border-radius: 6px; cursor: pointer;">Close</button>
+    if "show_about" not in st.session_state:
+        st.session_state.show_about = False
+
+    with st.container():
+        cols = st.columns([8, 2])
+        with cols[0]:
+            if st.button("About", key="about_button"):
+                st.session_state.show_about = not st.session_state.show_about
+
+        if st.session_state.show_about:
+            st.markdown("""
+            <div class="about-content" style="background-color: #f0f4f8; padding: 1em; border-radius: 10px;">
+                <h4>🧠 About MindScope</h4>
+                <p>
+                    <b>MindScope</b> is a privacy-focused, AI-powered research assistant that helps users:
+                    <ul>
+                        <li>📄 Summarize academic content</li>
+                        <li>🧠 Generate mind maps</li>
+                        <li>💬 Interact with intelligent Q&A modules</li>
+                        <li>🎯 Practice subjective questions with AI evaluation</li>
+                    </ul>
+                </p>
+                <hr/>
+                <b>👨‍💻 Author:</b> <a href="https://www.linkedin.com/in/gaurav-kumar-jha-525063276" target="_blank">Gaurav Kumar Jha</a><br/>
+                <b>📧 Email:</b> <a href="mailto:jhagauravkumar20@gmail.com">jhagauravkumar20@gmail.com</a><br/>
+                <b>🔗 GitHub:</b> <a href="https://github.com/jhagauravkr" target="_blank">@jhagauravkr</a>
             </div>
-        </div>`;
-        if (!window.showAbout) return;
-        document.body.insertAdjacentHTML('beforeend', html);
-        window.showAbout = false;
-    };
-    setInterval(aboutPopup, 500);
-    </script>
-    """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
 
 def hero_header():
     st.markdown("""
