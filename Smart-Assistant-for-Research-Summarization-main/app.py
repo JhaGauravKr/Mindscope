@@ -19,13 +19,14 @@ from utils.challenge import (
 from utils.mindmap import generate_mindmap
 from ui_config import inject_custom_css, set_custom_page_config, theme_toggle, about_modal, hero_header, footer
 
-# ───── Streamlit Config ─────
-set_custom_page_config()     # ✅ Includes title, layout, and icon
+# Streamlit Config
+set_custom_page_config()
 inject_custom_css()
 theme_toggle()
-about_modal()
+about_modal()      # Shows modal now
 hero_header()
 footer()
+
 
 
 
