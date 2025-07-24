@@ -17,13 +17,18 @@ from utils.challenge import (
     evaluate_subjective
 )
 from utils.mindmap import generate_mindmap
-from ui_config import inject_custom_css, show_sidebar_info, hero_header
+from ui_config import inject_custom_css, set_custom_page_config, theme_toggle, about_modal, hero_header, footer
+
 
 # ───── Streamlit Config ─────
 st.set_page_config("🧠 MindScope: AI-Powered Research Assistant", layout="wide")
+set_custom_page_config()
 inject_custom_css()
-show_sidebar_info()
+theme_toggle()
+about_modal()
 hero_header()
+footer()
+
 
 
 def main():
