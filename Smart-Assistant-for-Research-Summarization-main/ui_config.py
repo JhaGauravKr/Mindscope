@@ -60,6 +60,23 @@ def inject_custom_css():
         padding: 1em;
     }
 
+    /* Specific styles for File Uploader text */
+    /* Light Theme */
+    [data-theme="light"] .stFileUploader label { /* Label "Upload Research Document" */
+        color: #111827; /* Dark text for light theme */
+    }
+    [data-theme="light"] .stFileUploader > div > button + div { /* "Drag and drop file here" and "Limit 200MB" */
+        color: #111827; /* Dark text for light theme */
+    }
+    /* Dark Theme */
+    [data-theme="dark"] .stFileUploader label {
+        color: #f8fafc; /* Light text for dark theme */
+    }
+    [data-theme="dark"] .stFileUploader > div > button + div {
+        color: #f8fafc; /* Light text for dark theme */
+    }
+
+
     /* Hero Header */
     .hero-header h1 {
         font-size: 3rem;
@@ -76,23 +93,32 @@ def inject_custom_css():
     /* Light theme info */
     .stAlert.info {
         background-color: #e0f2fe; /* Light blue */
-        color: #0c4a6e; /* Dark blue text */
+    }
+    .stAlert.info > div > div > div { /* Target the text content inside the info alert */
+        color: #0c4a6e !important; /* Dark blue text, !important to override specificity issues */
     }
     /* Dark theme info */
     [data-theme="dark"] .stAlert.info {
         background-color: #1e3a8a; /* Darker blue */
-        color: #bfdbfe; /* Lighter blue text */
     }
+    [data-theme="dark"] .stAlert.info > div > div > div { /* Target the text content inside the info alert */
+        color: #bfdbfe !important; /* Lighter blue text, !important to override specificity issues */
+    }
+
 
     /* Light theme success */
     .stAlert.success {
         background-color: #dcfce7; /* Light green */
-        color: #166534; /* Dark green text */
+    }
+    .stAlert.success > div > div > div { /* Target the text content inside the success alert */
+        color: #166534 !important; /* Dark green text, !important to override specificity issues */
     }
     /* Dark theme success */
     [data-theme="dark"] .stAlert.success {
         background-color: #166534; /* Darker green */
-        color: #bbf7d0; /* Lighter green text */
+    }
+    [data-theme="dark"] .stAlert.success > div > div > div { /* Target the text content inside the success alert */
+        color: #bbf7d0 !important; /* Lighter green text, !important to override specificity issues */
     }
 
     /* About Expander Content Specific Styles (if using expander) */
@@ -182,7 +208,7 @@ def theme_toggle():
         """, unsafe_allow_html=True)
 
 
-def about_section(): # Renamed to reflect it's now an expander, not a modal
+def about_section():
     with st.expander("About MindScope 🧠"):
         st.markdown("""
             <p>
