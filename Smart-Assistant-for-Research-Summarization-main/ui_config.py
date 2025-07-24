@@ -20,22 +20,22 @@ def inject_custom_css():
     /* DARK THEME */
     [data-theme="dark"] {
         background-color: #0f172a;
-        color: #f8fafc;
+        color: #f8fafc; /* General text color for dark theme */
     }
 
     [data-theme="dark"] .stMarkdown {
-        background-color: #1e293b;
+        background-color: #1e293b; /* Slightly lighter background for markdown blocks */
         color: #f8fafc;
     }
 
     /* LIGHT THEME */
     [data-theme="light"] {
         background-color: #ffffff;
-        color: #111827;
+        color: #111827; /* General text color for light theme */
     }
 
     [data-theme="light"] .stMarkdown {
-        background-color: #f3f4f6;
+        background-color: #f3f4f6; /* Slightly darker background for markdown blocks */
         color: #111827;
     }
 
@@ -61,6 +61,7 @@ def inject_custom_css():
         padding: 1em;
     }
 
+    /* Hero Header */
     .hero-header h1 {
         font-size: 3rem;
         font-weight: bold;
@@ -73,23 +74,36 @@ def inject_custom_css():
     }
 
     /* Streamlit Info Box - General styling for visibility in both themes */
+    /* Light theme info */
     .stAlert.info {
-        background-color: #e0f2fe; /* Light blue for light theme info */
-        color: #0c4a6e; /* Dark blue text for light theme info */
+        background-color: #e0f2fe; /* Light blue */
+        color: #0c4a6e; /* Dark blue text */
     }
+    /* Dark theme info */
     [data-theme="dark"] .stAlert.info {
-        background-color: #1e3a8a; /* Darker blue for dark theme info */
-        color: #bfdbfe; /* Lighter blue text for dark theme info */
+        background-color: #1e3a8a; /* Darker blue */
+        color: #bfdbfe; /* Lighter blue text */
     }
 
-    /* Ensure text in st.markdown is visible */
-    .stMarkdown, .stText {
-        color: var(--text-color, #111827); /* Use CSS variable for flexibility, default to dark for light theme */
+    /* About Modal Content Specific Styles */
+    .about-content {
+        padding: 1em;
+        border-radius: 10px;
     }
-    [data-theme="dark"] .stMarkdown, [data-theme="dark"] .stText {
-        color: var(--text-color, #f8fafc); /* Default to light for dark theme */
+    [data-theme="light"] .about-content {
+        background-color: #f0f4f8; /* Light gray for light theme */
+        color: #111827; /* Dark text for light theme */
+    }
+    [data-theme="dark"] .about-content {
+        background-color: #2d3748; /* Darker background for dark theme */
+        color: #f8fafc; /* Light text for dark theme */
     }
 
+    /* Ensure text in st.markdown and st.text is visible by default */
+    /* This overrides some Streamlit defaults if they are causing issues */
+    .stMarkdown, .stText, .stTextInput, .stTextArea {
+        color: var(--text-color); /* Use CSS variable set by theme_toggle */
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -98,26 +112,24 @@ def theme_toggle():
     if "dark_mode" not in st.session_state:
         st.session_state.dark_mode = False
 
-    col1, col2 = st.columns([8, 2]) # Adjusted column ratio
-    with col2: # Place toggle button in the second column
-        toggle = st.button("🌙 Toggle Theme", key="theme_toggle")
-        if toggle:
-            st.session_state.dark_mode = not st.session_state.dark_mode
+    # This function only handles the theme toggle button and dynamic CSS
+    toggle = st.button("🌙 Toggle Theme", key="theme_toggle")
+    if toggle:
+        st.session_state.dark_mode = not st.session_state.dark_mode
 
     # Set light/dark mode CSS dynamically
     if st.session_state.dark_mode:
         st.markdown("""
         <style>
         :root {
-            --text-color: #f8fafc; /* Define text color for dark mode */
+            --text-color: #f8fafc; /* Define text color for dark mode for general text */
         }
         body, .stApp {
             background-color: #111827;
-            color: #ffffff;
         }
         .stTextInput>div>div>input, .stTextArea>div>textarea {
             background-color: #1f2937;
-            color: #ffffff;
+            color: #ffffff; /* Explicitly white for input/textarea text in dark mode */
             border: 1px solid #374151;
         }
         .stButton>button {
@@ -130,15 +142,14 @@ def theme_toggle():
         st.markdown("""
         <style>
         :root {
-            --text-color: #111827; /* Define text color for light mode */
+            --text-color: #111827; /* Define text color for light mode for general text */
         }
         body, .stApp {
             background-color: #f9fafb;
-            color: #1f2937;
         }
         .stTextInput>div>div>input, .stTextArea>div>textarea {
             background-color: #ffffff;
-            color: #000000;
+            color: #000000; /* Explicitly black for input/textarea text in light mode */
             border: 1px solid #d1d5db;
         }
         .stButton>button {
@@ -153,15 +164,13 @@ def about_modal():
     if "show_about" not in st.session_state:
         st.session_state.show_about = False
 
-    # Place the About button in the top bar, consistent with theme toggle
-    col1, col2 = st.columns([1, 8]) # Adjusted column ratio for about button
-    with col1: # Place about button in the first column
-        if st.button("About", key="about_button_top_bar"): # Renamed key to avoid potential conflicts
-            st.session_state.show_about = not st.session_state.show_about
+    # This button controls the visibility of the about modal directly
+    if st.button("About", key="about_button_top_bar"):
+        st.session_state.show_about = not st.session_state.show_about
 
     if st.session_state.show_about:
         st.markdown("""
-        <div class="about-content" style="background-color: #f0f4f8; padding: 1em; border-radius: 10px;">
+        <div class="about-content">
             <h4>🧠 About MindScope</h4>
             <p>
                 <b>MindScope</b> is a privacy-focused, AI-powered research assistant that helps users:
@@ -178,8 +187,7 @@ def about_modal():
             <b>🔗 GitHub:</b> <a href="https://github.com/jhagauravkr" target="_blank">@jhagauravkr</a>
         </div>
         """, unsafe_allow_html=True)
-    # The div closing tag in theme_toggle was problematic, removed.
-    # The placement of about_modal() and theme_toggle() calls in app.py matters.
+
 
 def hero_header():
     st.markdown("""
@@ -190,7 +198,7 @@ def hero_header():
     """, unsafe_allow_html=True)
 
 def show_sidebar_info():
-    pass  # About is now in top bar modal
+    pass
 
 def footer():
     st.markdown("""
