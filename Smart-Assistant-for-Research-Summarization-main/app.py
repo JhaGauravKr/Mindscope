@@ -19,10 +19,8 @@ from utils.challenge import (
 from utils.mindmap import generate_mindmap
 from ui_config import inject_custom_css, set_custom_page_config, theme_toggle, about_modal, hero_header, footer
 
-
 # ───── Streamlit Config ─────
-st.set_page_config("🧠 MindScope: AI-Powered Research Assistant", layout="wide")
-set_custom_page_config()
+set_custom_page_config()     # ✅ Includes title, layout, and icon
 inject_custom_css()
 theme_toggle()
 about_modal()
