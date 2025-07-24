@@ -72,7 +72,7 @@ def inject_custom_css():
         color: #6b7280;
     }
 
-    /* Streamlit Info Box - General styling for visibility in both themes */
+    /* Streamlit Alert Boxes: Info and Success */
     /* Light theme info */
     .stAlert.info {
         background-color: #e0f2fe; /* Light blue */
@@ -82,6 +82,17 @@ def inject_custom_css():
     [data-theme="dark"] .stAlert.info {
         background-color: #1e3a8a; /* Darker blue */
         color: #bfdbfe; /* Lighter blue text */
+    }
+
+    /* Light theme success */
+    .stAlert.success {
+        background-color: #dcfce7; /* Light green */
+        color: #166534; /* Dark green text */
+    }
+    /* Dark theme success */
+    [data-theme="dark"] .stAlert.success {
+        background-color: #166534; /* Darker green */
+        color: #bbf7d0; /* Lighter green text */
     }
 
     /* About Expander Content Specific Styles (if using expander) */
