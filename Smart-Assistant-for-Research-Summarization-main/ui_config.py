@@ -46,13 +46,13 @@ def inject_custom_css():
     [data-theme="light"] .stFileUploader label,
     [data-theme="light"] .stFileUploader > div > button + div,
     [data-theme="light"] .stFileUploader span { /* Added span as a target */
-        color: #111827 !important; /* Dark text for light theme, with !important */
+        color: var(--text-color) !important; /* Use main text color, with !important */
     }
     /* Dark Theme */
     [data-theme="dark"] .stFileUploader label,
     [data-theme="dark"] .stFileUploader > div > button + div,
     [data-theme="dark"] .stFileUploader span { /* Added span as a target */
-        color: #f8fafc !important; /* Light text for dark theme, with !important */
+        color: var(--text-color) !important; /* Use main text color, with !important */
     }
 
 
@@ -72,31 +72,27 @@ def inject_custom_css():
     /* Light theme info */
     .stAlert.info {
         background-color: #e0f2fe; /* Light blue */
-    }
-    .stAlert.info div[data-testid="stMarkdownContainer"] { /* Target Markdown content within info alert */
-        color: #0c4a6e !important; /* Dark blue text, !important */
+        /* Explicitly set text color for content within info alert */
+        color: #0c4a6e !important; /* Dark blue text, !important to override specificity issues */
     }
     /* Dark theme info */
     [data-theme="dark"] .stAlert.info {
         background-color: #1e3a8a; /* Darker blue */
-    }
-    [data-theme="dark"] .stAlert.info div[data-testid="stMarkdownContainer"] { /* Target Markdown content within info alert */
-        color: #bfdbfe !important; /* Lighter blue text, !important */
+        /* Explicitly set text color for content within info alert */
+        color: #bfdbfe !important; /* Lighter blue text, !important to override specificity issues */
     }
 
     /* Light theme success */
     .stAlert.success {
         background-color: #dcfce7; /* Light green */
-    }
-    .stAlert.success div[data-testid="stMarkdownContainer"] { /* Target Markdown content within success alert */
-        color: #166534 !important; /* Dark green text, !important */
+        /* Explicitly set text color for content within success alert */
+        color: #166534 !important; /* Dark green text, !important to override specificity issues */
     }
     /* Dark theme success */
     [data-theme="dark"] .stAlert.success {
         background-color: #166534; /* Darker green */
-    }
-    [data-theme="dark"] .stAlert.success div[data-testid="stMarkdownContainer"] { /* Target Markdown content within success alert */
-        color: #bbf7d0 !important; /* Lighter green text, !important */
+        /* Explicitly set text color for content within success alert */
+        color: #bbf7d0 !important; /* Lighter green text, !important to override specificity issues */
     }
 
     /* About Expander Content Specific Styles */
@@ -139,7 +135,7 @@ def inject_custom_css():
 
 def theme_toggle():
     if "dark_mode" not in st.session_state:
-        st.session_state.dark_mode = False
+        st.session_state.dark_mode = True # Changed to True for default dark mode
 
     toggle = st.button("🌙 ", key="theme_toggle")
     if toggle:
@@ -172,10 +168,10 @@ def theme_toggle():
         st.markdown("""
         <style>
         :root {
-            --text-color: #111827; /* Very dark gray */
-            --background-color: #ffffff; /* White for main app background */
-            --background-color-secondary: #f3f4f6; /* Lighter gray for components like expanders */
-            --border-color: #d1d5db; /* Light border */
+            --text-color: #111827; /* Dark text */
+            --background-color: #f0f2f5; /* A very light grayish background */
+            --background-color-secondary: #e6e8eb; /* Slightly darker grayish for components */
+            --border-color: #c0c0c0; /* Medium gray border */
             --input-background-color: #ffffff;
             --input-text-color: #000000;
             --input-border-color: #d1d5db;
