@@ -22,11 +22,17 @@ from ui_config import inject_custom_css, set_custom_page_config, theme_toggle, a
 # Streamlit Config
 set_custom_page_config()
 inject_custom_css()
-theme_toggle()
-about_modal()      # Shows modal now
-hero_header()
-footer()
 
+# Combined top bar for About and Theme Toggle
+col_about, col_spacer, col_theme = st.columns([1, 6, 1]) # Adjust ratios as needed for spacing
+with col_about:
+    about_modal() # This now just contains the button logic and modal display
+with col_theme:
+    theme_toggle() # This now just contains the toggle button logic
+
+hero_header()
+# No direct call to footer() here if it's placed at the very end of main() or explicitly handled.
+# Placing it at the end of main() is more common for footers.
 
 
 
@@ -103,6 +109,10 @@ def main():
 
     else:
         st.info("📥 Please upload a PDF or TXT file to begin.")
+
+    # Footer call at the end of the main function
+    footer()
+
 
 # ───── Main Entrypoint ─────
 if __name__ == "__main__":
