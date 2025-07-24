@@ -17,8 +17,6 @@ def inject_custom_css():
         transition: background-color 0.3s ease, color 0.3s ease;
     }
 
-    /* Streamlit's data-theme is handled by theme_toggle now via :root variables */
-
     /* Buttons */
     .stButton>button {
         border-radius: 8px;
@@ -42,17 +40,15 @@ def inject_custom_css():
     }
 
     /* Specific styles for File Uploader text */
-    /* Light Theme */
     [data-theme="light"] .stFileUploader label,
     [data-theme="light"] .stFileUploader > div > button + div,
-    [data-theme="light"] .stFileUploader span { /* Added span as a target */
-        color: var(--text-color) !important; /* Use main text color, with !important */
+    [data-theme="light"] .stFileUploader span {
+        color: var(--text-color) !important;
     }
-    /* Dark Theme */
     [data-theme="dark"] .stFileUploader label,
     [data-theme="dark"] .stFileUploader > div > button + div,
-    [data-theme="dark"] .stFileUploader span { /* Added span as a target */
-        color: var(--text-color) !important; /* Use main text color, with !important */
+    [data-theme="dark"] .stFileUploader span {
+        color: var(--text-color) !important;
     }
 
 
@@ -65,60 +61,55 @@ def inject_custom_css():
     .hero-header p {
         font-size: 1.2rem;
         margin-top: -1rem;
-        color: #6b7280; /* This can remain a fixed neutral color */
+        color: #6b7280;
     }
 
     /* Streamlit Alert Boxes: Info and Success */
     /* Light theme info */
     .stAlert.info {
-        background-color: #e0f2fe; /* Light blue */
-        /* Explicitly set text color for content within info alert */
-        color: #0c4a6e !important; /* Dark blue text, !important to override specificity issues */
+        background-color: #e0f2fe; /* Light blue background */
+        color: #0c4a6e !important; /* Dark blue text */
     }
     /* Dark theme info */
     [data-theme="dark"] .stAlert.info {
-        background-color: #1e3a8a; /* Darker blue */
-        /* Explicitly set text color for content within info alert */
-        color: #bfdbfe !important; /* Lighter blue text, !important to override specificity issues */
+        background-color: #1e3a8a; /* Darker blue background */
+        color: #bfdbfe !important; /* Lighter blue text */
     }
 
     /* Light theme success */
     .stAlert.success {
-        background-color: #dcfce7; /* Light green */
-        /* Explicitly set text color for content within success alert */
-        color: #166534 !important; /* Dark green text, !important to override specificity issues */
+        background-color: #dcfce7; /* Light green background */
+        color: #166534 !important; /* Dark green text */
     }
     /* Dark theme success */
     [data-theme="dark"] .stAlert.success {
-        background-color: #166534; /* Darker green */
-        /* Explicitly set text color for content within success alert */
-        color: #bbf7d0 !important; /* Lighter green text, !important to override specificity issues */
+        background-color: #166534; /* Darker green background */
+        color: #bbf7d0 !important; /* Lighter green text */
     }
 
     /* About Expander Content Specific Styles */
     .st-expander {
-        background-color: var(--background-color-secondary); /* Use a secondary background variable */
+        background-color: var(--background-color-secondary);
         border-radius: 10px;
         padding: 1em;
         border: 1px solid var(--border-color);
     }
     .st-expander details summary,
     .st-expander details div {
-        color: var(--text-color) !important; /* Ensure text is visible inside expander */
+        color: var(--text-color) !important;
     }
 
     /* Universal text color for various Streamlit elements */
-    /* This targets a wide range of text-displaying components */
     .stText,
     .stMarkdown,
     .stLabel,
-    .stBlock, /* General block elements, often contain text */
+    .stBlock,
     .stTextInput>div>label,
     .stTextArea>label,
     .stSelectbox>label,
     .stRadio>label,
     .stCheckbox>label {
-        color: var(--text-color) !important; /* Apply global text color, !important as a last resort */
+        color: var(--text-color) !important;
     }
 
     /* Input and TextArea specific styling */
@@ -135,9 +126,9 @@ def inject_custom_css():
 
 def theme_toggle():
     if "dark_mode" not in st.session_state:
-        st.session_state.dark_mode = True # Changed to True for default dark mode
+        st.session_state.dark_mode = True # Default to dark mode
 
-    toggle = st.button("🌙 ", key="theme_toggle")
+    toggle = st.button("🌙 Toggle Theme", key="theme_toggle")
     if toggle:
         st.session_state.dark_mode = not st.session_state.dark_mode
 
@@ -146,20 +137,20 @@ def theme_toggle():
         st.markdown("""
         <style>
         :root {
-            --text-color: #f8fafc; /* Very light gray */
-            --background-color: #0f172a; /* Dark blue-gray for main app background */
-            --background-color-secondary: #1e293b; /* Slightly lighter dark for components like expanders */
-            --border-color: #374151; /* Darker border */
+            --text-color: #f8fafc;
+            --background-color: #0f172a;
+            --background-color-secondary: #1e293b;
+            --border-color: #374151;
             --input-background-color: #1f2937;
             --input-text-color: #ffffff;
             --input-border-color: #374151;
         }
         body, .stApp {
-            background-color: var(--background-color);
-            color: var(--text-color); /* Apply general text color to body/app */
+            background-color: var(--background-color) !important; /* Ensure main app background is set */
+            color: var(--text-color) !important; /* Ensure general text color is set */
         }
         .stButton>button {
-            background: #4f46e5; /* Primary button color */
+            background: #4f46e5;
             color: white;
         }
         </style>
@@ -168,20 +159,20 @@ def theme_toggle():
         st.markdown("""
         <style>
         :root {
-            --text-color: #111827; /* Dark text */
-            --background-color: #f0f2f5; /* A very light grayish background */
+            --text-color: #111827; /* Dark text for contrast */
+            --background-color: #f0f2f5; /* Light grayish background for main app */
             --background-color-secondary: #e6e8eb; /* Slightly darker grayish for components */
-            --border-color: #c0c0c0; /* Medium gray border */
+            --border-color: #c0c0c0;
             --input-background-color: #ffffff;
             --input-text-color: #000000;
             --input-border-color: #d1d5db;
         }
         body, .stApp {
-            background-color: var(--background-color);
-            color: var(--text-color); /* Apply general text color to body/app */
+            background-color: var(--background-color) !important; /* Ensure main app background is set */
+            color: var(--text-color) !important; /* Ensure general text color is set */
         }
         .stButton>button {
-            background: linear-gradient(135deg, #4f46e5, #6366f1); /* Gradient for light theme buttons */
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
             color: white;
         }
         </style>
