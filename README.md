@@ -6,7 +6,7 @@ A full-stack AI-powered web assistant that helps users upload academic PDFs or T
 
 ## 🌐 Live Demo
 
-🔗Experience the AI live here: [Click Here](https://jhagauravkr-mindscope.streamlit.app/)
+🔗Experience the AI Assistant live here: [Click Here](https://jhagauravkr-mindscope.streamlit.app/)
 
 ---
 
