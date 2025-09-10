@@ -20,7 +20,7 @@ def generate_subjective_questions(document_text: str, api_key: str, num_question
 
     try:
         response = client.chat.completions.create(
-            model="llama3-70b-8192",
+            model="llama-3.3-70b-versatile",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.3,
             max_tokens=500,
@@ -62,4 +62,5 @@ def evaluate_subjective(user_answer: str, question: str, api_key: str) -> str:
         return response.choices[0].message.content.strip()
 
     except Exception as e:
+
         return f"❌ Evaluation error: {e}"
