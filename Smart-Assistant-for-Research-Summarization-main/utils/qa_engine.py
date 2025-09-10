@@ -17,7 +17,7 @@ def answer_question(document_text: str, question: str, api_key: str) -> dict:
 
         response = client.chat.completions.create(
             messages=[{"role": "user", "content": prompt}],
-            model="llama3-70b-8192",
+            model="llama-3.3-70b-versatile",
             temperature=0.4,
             max_tokens=512,
             top_p=1
@@ -36,4 +36,5 @@ def answer_question(document_text: str, question: str, api_key: str) -> dict:
         return {"answer": content, "justification": ""}
 
     except Exception as e:
+
         raise RuntimeError(f"Q&A error: {str(e)}")
