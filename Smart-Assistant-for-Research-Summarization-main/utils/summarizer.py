@@ -17,7 +17,8 @@ def summarise_document(text: str, api_key: str) -> str:
 
         response = client.chat.completions.create(
             messages=[{"role": "user", "content": prompt}],
-            model="llama3-70b-8192",  # ✅ Updated to a supported model
+            # model="llama3-70b-8192",  # ✅ Updated to a supported model
+            model="llama-3.3-70b-versatile"
             temperature=0.4,
             max_tokens=400,
             top_p=1
@@ -27,4 +28,5 @@ def summarise_document(text: str, api_key: str) -> str:
         return summary
 
     except Exception as e:
+
         raise RuntimeError(f"Summarization error: {str(e)}")
